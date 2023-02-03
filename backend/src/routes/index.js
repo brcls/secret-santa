@@ -3,7 +3,7 @@ import users from "./usersRoutes.js";
 
 const routes = (app) => {
   app.route("/").get((req, res) => {
-    res.status(200).send({ titulo: "Curso de Node" });
+    res.status(200).send({ titulo: "Amigo Secreto" });
   });
 
   app.use(express.json(), users);

@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import api from "../services/api";
 
 const StyledTitle = styled.h1`
   text-align: center;
@@ -22,31 +24,61 @@ const StyledButton = styled(Button)`
 `;
 
 export default function Cadastro() {
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  function handleNovoUsuario(e) {
+    e.preventDefault();
+
+    console.log(user);
+
+    api
+      .post("/users", user)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        alert(error);
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <Header />
       <StyledContainer>
         <StyledTitle>Cadastro</StyledTitle>
-        <Form>
+        <Form onSubmit={handleNovoUsuario}>
           <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Nome</Form.Label>
-            <Form.Control type="text" placeholder="Nome" />
+            <Form.Control
+              type="text"
+              placeholder="Nome"
+              onChange={(e) => setUser({ ...user, nome: e.target.value })}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Email" />
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Senha</Form.Label>
-            <Form.Control type="password" placeholder="Senha" />
+            <Form.Control
+              type="password"
+              placeholder="Senha"
+              onChange={(e) => setUser({ ...user, senha: e.target.value })}
+            />
           </Form.Group>
-          <Link to="/sorteio">
-            <StyledButton variant="secondary" type="submit">
-              Cadastro
-            </StyledButton>
-          </Link>
+
+          <StyledButton variant="secondary" type="submit">
+            Cadastro
+          </StyledButton>
         </Form>
       </StyledContainer>
     </>

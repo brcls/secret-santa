@@ -23,20 +23,6 @@ export default function Header() {
             <StyledLogo src={Logo} fluid /> Amigo Secreto
           </StyledLink>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link>
-              <StyledLink to="/login">Login</StyledLink>
-            </Nav.Link>
-            <Nav.Link>
-              <StyledLink to="/cadastro">Cadastro</StyledLink>
-            </Nav.Link>
-            <Nav.Link>
-              <StyledLink to="/">Sorteio</StyledLink>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
