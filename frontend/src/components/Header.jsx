@@ -1,29 +1,29 @@
 import React from "react";
 import styled from "styled-components";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 import Logo from "../assets/gift.png";
 
 const StyledLogo = styled.img`
   width: 3rem;
-  height: 3rem;
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #000;
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const StyledTitle = styled.h3`
+  margin: 0.5rem;
 `;
 
 export default function Header() {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand>
-          <StyledLink to="/">
-            <StyledLogo src={Logo} fluid /> Amigo Secreto
-          </StyledLink>
-        </Navbar.Brand>
-      </Container>
+    <Navbar bg="light">
+      <StyledContainer>
+        <StyledLogo src={Logo} fluid />
+        <StyledTitle>Amigo Secreto</StyledTitle>
+      </StyledContainer>
     </Navbar>
   );
 }
