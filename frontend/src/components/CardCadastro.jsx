@@ -9,6 +9,7 @@ const StyledContainer = styled(Container)`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 60%;
 `;
 
 const StyledButton = styled(Button)`
