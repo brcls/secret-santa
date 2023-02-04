@@ -41,7 +41,11 @@ export default function ListaUsers() {
       )}
 
       <Accordion>
-        {users ? users.map((user) => <ItemAmigo user={user} />) : <></>}
+        {users ? (
+          users.map((user) => <ItemAmigo key={user._id} user={user} />)
+        ) : (
+          <></>
+        )}
       </Accordion>
     </StyledContainer>
   );

@@ -44,9 +44,9 @@ export default function CardCadastro() {
   function handleNovoUsuario(e) {
     e.preventDefault();
     setShow(!show);
+
     api.post("/users", user).catch((error) => {
       alert(error);
-      console.log(error);
     });
   }
 

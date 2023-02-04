@@ -59,6 +59,8 @@ export default function Home() {
           secret_friend: amigoSecreto.nome,
         };
 
+        console.log(templateParams);
+
         emailjs
           .send(
             "service_sqhr29x",
