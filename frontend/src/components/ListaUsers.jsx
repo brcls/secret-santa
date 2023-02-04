@@ -1,5 +1,12 @@
-import { Form, Button, Container, Accordion, ListGroup } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import {
+  Form,
+  Button,
+  Container,
+  Accordion,
+  ListGroup,
+  Overlay,
+} from "react-bootstrap";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import api from "../services/api";
 
@@ -27,6 +34,8 @@ const StyledTitle = styled.h2`
 export default function ListaUsers() {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({});
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
 
   useEffect(() => {
     api
@@ -48,6 +57,7 @@ export default function ListaUsers() {
 
   function handleAtualizarUsuario(id, e) {
     e.preventDefault();
+    setShow(!show);
     api.put(`/users/${id}`, newUser).catch((error) => {
       alert(error);
     });
@@ -63,7 +73,7 @@ export default function ListaUsers() {
       <ListGroup>
         {users ? (
           users.map((user) => (
-            <Accordion>
+            <Accordion key={user._id}>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>{user.nome}</Accordion.Header>
                 <Accordion.Body>
@@ -92,9 +102,45 @@ export default function ListaUsers() {
                       />
                     </Form.Group>
 
-                    <StyledButton variant="secondary" type="submit">
+                    <StyledButton
+                      ref={target}
+                      variant="secondary"
+                      type="submit"
+                    >
                       Atualizar
                     </StyledButton>
+                    <Overlay
+                      transition
+                      target={target.current}
+                      show={show}
+                      placement="top"
+                      onEntered={() => {
+                        setTimeout(() => {
+                          setShow(false);
+                        }, 2000);
+                      }}
+                    >
+                      {({
+                        placement,
+                        arrowProps,
+                        show: _show,
+                        popper,
+                        ...props
+                      }) => (
+                        <div
+                          {...props}
+                          style={{
+                            backgroundColor: "#19af93c0",
+                            padding: "2px 10px",
+                            color: "white",
+                            borderRadius: 3,
+                            ...props.style,
+                          }}
+                        >
+                          Amigo atualizado com sucesso!
+                        </div>
+                      )}
+                    </Overlay>
                     <StyledButton
                       onClick={(e) => handleApagarUsuario(user._id, e)}
                       variant="danger"

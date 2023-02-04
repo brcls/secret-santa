@@ -1,5 +1,5 @@
-import { Form, Button, Container, Accordion, ListGroup } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { Form, Button, Container, Overlay } from "react-bootstrap";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import api from "../services/api";
 
@@ -26,6 +26,8 @@ const StyledTitle = styled.h2`
 export default function CardCadastro() {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
 
   useEffect(() => {
     api
@@ -40,7 +42,7 @@ export default function CardCadastro() {
 
   function handleNovoUsuario(e) {
     e.preventDefault();
-
+    setShow(!show);
     api.post("/users", user).catch((error) => {
       alert(error);
       console.log(error);
@@ -54,6 +56,7 @@ export default function CardCadastro() {
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Nome</Form.Label>
           <Form.Control
+            required
             type="text"
             placeholder="Nome"
             onChange={(e) => setUser({ ...user, nome: e.target.value })}
@@ -63,15 +66,42 @@ export default function CardCadastro() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
+            required
             type="email"
             placeholder="Email"
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </Form.Group>
 
-        <StyledButton variant="secondary" type="submit">
+        <StyledButton ref={target} variant="secondary" type="submit">
           Cadastro
         </StyledButton>
+        <Overlay
+          transition
+          target={target.current}
+          show={show}
+          placement="bottom"
+          onEntered={() => {
+            setTimeout(() => {
+              setShow(false);
+            }, 2000);
+          }}
+        >
+          {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            <div
+              {...props}
+              style={{
+                backgroundColor: "#19af93c0",
+                padding: "2px 10px",
+                color: "white",
+                borderRadius: 3,
+                ...props.style,
+              }}
+            >
+              Amigo cadastrado com sucesso!
+            </div>
+          )}
+        </Overlay>
       </Form>
     </StyledContainer>
   );
