@@ -1,6 +1,6 @@
 # Amigo Secreto
 
-## Tutorial for program execution:
+### Tutorial for program execution:
 
 After cloning the repository, open a terminal and run:
 
