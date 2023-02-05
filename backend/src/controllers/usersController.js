@@ -1,9 +1,47 @@
 import users from "../models/User.js";
+import sortearAmigos from "../utils/sortearAmigos.js";
+import emailjs from "emailjs-com";
 
 class UserController {
   static listarUsers = (req, res) => {
     users.find((err, users) => {
       res.status(200).json(users);
+    });
+  };
+
+  static sortearUsers = (req, res) => {
+    users.find((err, users) => {
+      const sorteio = sortearAmigos(JSON.parse(JSON.stringify(users)));
+
+      if (sorteio.length % 2 !== 0) {
+        res.status(400).send({ message: "Número de participantes inválido" });
+      } else {
+        res.status(200).send({ message: "Sorteio realizado com sucesso" });
+
+        sorteio.map((amigo) => {
+          const { nome, email, amigoSecreto } = amigo;
+
+          const templateParams = {
+            user_name: nome,
+            to_email: email,
+            secret_friend: amigoSecreto.nome,
+          };
+
+          console.log(templateParams);
+
+          emailjs
+            .send(
+              "service_sqhr29x",
+              "template_1qplrf9",
+              templateParams,
+              "vgaMNG4u-lLcqFcPu"
+            )
+            .then(
+              (result) => console.log(result.text),
+              (error) => console.log(error.text)
+            );
+        });
+      }
     });
   };
 

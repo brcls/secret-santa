@@ -1,4 +1,4 @@
-export default function atribuirAmigos(users) {
+export default function sortearAmigos(users) {
   function shuffle(o) {
     for (
       var j, x, i = o.length;
@@ -10,7 +10,7 @@ export default function atribuirAmigos(users) {
 
   const amigosSecretos = shuffle(users.slice());
 
-  const retorno = amigosSecretos.map((user, index) => {
+  const sorteio = amigosSecretos.map((user, index) => {
     const amigoSecreto = amigosSecretos[index + 1] || amigosSecretos[0];
     return {
       ...user,
@@ -18,5 +18,5 @@ export default function atribuirAmigos(users) {
     };
   });
 
-  return retorno;
+  return sorteio;
 }

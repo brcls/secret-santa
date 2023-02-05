@@ -5,6 +5,7 @@ const router = express.Router();
 
 router
   .get("/users", UserController.listarUsers)
+  .get("/users/sortear", UserController.sortearUsers)
   .get("/users/:id", UserController.listarUserPorId)
   .post("/users", UserController.cadastrarUser)
   .put("/users/:id", UserController.atualizarUser)

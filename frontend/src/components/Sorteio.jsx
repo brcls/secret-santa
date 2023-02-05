@@ -2,8 +2,6 @@ import { Button, Container, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import api from "../services/api";
-import emailjs from "emailjs-com";
-import atribuirAmigos from "../services/utils/sortearAmigos";
 
 const StyledContainer = styled(Container)`
   margin-top: 50px;
@@ -45,37 +43,15 @@ export default function Home() {
   function handleSorteio(e) {
     e.preventDefault();
 
-    const amigos = atribuirAmigos(users);
-
-    if (amigos.length % 2 == 0) {
-      setShowSortear(true);
-
-      amigos.map((amigo) => {
-        const { nome, email, amigoSecreto } = amigo;
-
-        const templateParams = {
-          user_name: nome,
-          to_email: email,
-          secret_friend: amigoSecreto.nome,
-        };
-
-        console.log(templateParams);
-
-        emailjs
-          .send(
-            "service_sqhr29x",
-            "template_1qplrf9",
-            templateParams,
-            "vgaMNG4u-lLcqFcPu"
-          )
-          .then(
-            (result) => console.log(result.text),
-            (error) => console.log(error.text)
-          );
+    api
+      .get("/users/sortear")
+      .then(() => {
+        setShowSortear(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        setShowErro(true);
       });
-    } else {
-      setShowErro(true);
-    }
   }
 
   return (
