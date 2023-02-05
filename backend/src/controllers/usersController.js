@@ -1,20 +1,26 @@
 import users from "../models/User.js";
 import sortearAmigos from "../utils/sortearAmigos.js";
 import validarEmail from "../utils/validarEmail.js";
+
+// Classe responsável por controlar as requisições
 class UserController {
+  // Método responsável por listar todos os users
   static listarUsers = (req, res) => {
     users.find((err, users) => {
       res.status(200).json(users);
     });
   };
 
+  // Método responsável por sortear os users
   static sortearUsers = (req, res) => {
     users.find((err, users) => {
       const sorteio = sortearAmigos(JSON.parse(JSON.stringify(users)));
 
+      // Verifica se o número de participantes é par
       if (sorteio.length % 2 !== 0) {
         res.status(400).send({ message: "Número de participantes inválido" });
       } else {
+        // Cria array de template para envio dos emails
         const amigosSorteados = sorteio.map((amigo) => {
           const { nome, email, amigoSecreto } = amigo;
 
@@ -32,6 +38,7 @@ class UserController {
     });
   };
 
+  // Método responsável por listar um user por id
   static listarUserPorId = (req, res) => {
     const id = req.params.id;
 
@@ -44,9 +51,11 @@ class UserController {
     });
   };
 
+  // Método responsável por cadastrar um users
   static cadastrarUser = (req, res) => {
     let user = new users(req.body);
 
+    // Valida se o email já existe
     validarEmail(user.email, (err) => {
       if (err) {
         res.status(500).send(err.message);
@@ -62,6 +71,7 @@ class UserController {
     });
   };
 
+  // Método responsável por atualizar um user
   static atualizarUser = (req, res) => {
     const id = req.params.id;
 
@@ -74,6 +84,7 @@ class UserController {
     });
   };
 
+  // Método responsável por excluir um user
   static excluirUser = (req, res) => {
     const id = req.params.id;
 

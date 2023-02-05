@@ -3,6 +3,7 @@ import UserController from "../controllers/usersController.js";
 
 const router = express.Router();
 
+// Rotas para o CRUD de users
 router
   .get("/users", UserController.listarUsers)
   .get("/users/sortear", UserController.sortearUsers)

@@ -1,3 +1,4 @@
+// Função que recebe um array de usuários e retorna um array com os usuários com o amigo secreto sorteado
 export default function sortearAmigos(users) {
   function shuffle(o) {
     for (
