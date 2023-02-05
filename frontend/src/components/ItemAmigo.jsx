@@ -1,8 +1,9 @@
-import { Form, Button, Container, Accordion, Overlay } from "react-bootstrap";
-import { useState, useEffect, useRef } from "react";
+import { Form, Button, Accordion, Overlay } from "react-bootstrap";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import api from "../services/api";
 
+// Estilização do componente
 const StyledButton = styled(Button)`
   width: 100%;
   margin-top: 10px;
@@ -11,18 +12,23 @@ const StyledButton = styled(Button)`
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
+// Componente responsável por renderizar um item da lista de amigos
+// e permitir a edição e exclusão de um usuário
+// Recebe como parâmetro um objeto user
+
 export default function ItemAmigo({ user }) {
   const [newUser, setNewUser] = useState({});
-  const [show, setShow] = useState(false);
-  const target = useRef(null);
+  const [show, setShow] = useState(false); // Exibe o sucesso
+  const target = useRef(null); // Referência para o elemento que será exibido
 
+  // Função responsável por deletar um usuário
   function handleApagarUsuario(id, e) {
     e.preventDefault();
     api.delete(`/users/${id}`).catch((error) => {
       alert(error);
     });
   }
-
+  // Função responsável por atualizar um usuário
   function handleAtualizarUsuario(id, e) {
     e.preventDefault();
     setShow(!show);

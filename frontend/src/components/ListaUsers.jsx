@@ -4,6 +4,7 @@ import styled from "styled-components";
 import api from "../services/api";
 import ItemAmigo from "./ItemAmigo";
 
+// Estilização do componente
 const StyledContainer = styled(Container)`
   margin-top: 50px;
   margin-bottom: 50px;
@@ -18,9 +19,11 @@ const StyledTitle = styled.h2`
   text-align: center;
 `;
 
+// Componente responsável por listar todos os usuários cadastrados
 export default function ListaUsers() {
   const [users, setUsers] = useState([]);
 
+  // Função responsável por buscar todos os usuários cadastrados
   useEffect(() => {
     api
       .get("/users")

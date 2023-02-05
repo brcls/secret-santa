@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import api from "../services/api";
 
+// Estilização do componente
+
 const StyledContainer = styled(Container)`
   margin-top: 50px;
   background-color: #fbfbfb;
@@ -24,14 +26,17 @@ const StyledTitle = styled.h2`
   text-align: center;
 `;
 
+// Componente responsável por cadastrar um novo usuário
+
 export default function CardCadastro() {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
-  const [show, setShow] = useState(false);
-  const [showErro, setShowErro] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
-  const target = useRef(null);
+  const [show, setShow] = useState(false); // Exibe o sucesso
+  const [showErro, setShowErro] = useState(false); // Exibe o erro
+  const [errorMessage, setErrorMessage] = useState(); // Mensagem de erro
+  const target = useRef(null); // Referência para o elemento que será exibido
 
+  // Função responsável por buscar todos os usuários cadastrados
   useEffect(() => {
     api
       .get("/users")
@@ -43,6 +48,7 @@ export default function CardCadastro() {
       });
   }, [users]);
 
+  // Função responsável por cadastrar um novo usuário
   function handleNovoUsuario(e) {
     e.preventDefault();
 

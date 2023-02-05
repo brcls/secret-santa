@@ -4,6 +4,7 @@ import styled from "styled-components";
 import api from "../services/api";
 import emailjs from "emailjs-com";
 
+// Estilização do componente
 const StyledContainer = styled(Container)`
   margin-top: 50px;
   background-color: #fbfbfb;
@@ -25,11 +26,13 @@ const StyledTitle = styled.h2`
   text-align: center;
 `;
 
+// Componente responsável por realizar o sorteio
 export default function Home() {
-  const [showSortear, setShowSortear] = useState(false);
-  const [showErro, setShowErro] = useState(false);
+  const [showSortear, setShowSortear] = useState(false); // Variável responsável por mostrar o alert de sucesso
+  const [showErro, setShowErro] = useState(false); // Variável responsável por mostrar o alert de erro
   const [users, setUsers] = useState([]);
 
+  // Função responsável por buscar todos os usuários cadastrados
   useEffect(() => {
     api
       .get("/users")
@@ -41,14 +44,19 @@ export default function Home() {
       });
   }, [users]);
 
+  // Função responsável por realizar o sorteio
   function handleSorteio(e) {
     e.preventDefault();
 
+    // Verifica se o número de usuários é par
+    // Se for, realiza o sorteio
+    // Se não for, exibe um alert de erro
     api
       .get("/users/sortear")
       .then(({ data }) => {
         setShowSortear(true);
 
+        // Envia o email para cada usuário
         data.map((user) => {
           emailjs
             .send(
