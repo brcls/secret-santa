@@ -28,6 +28,8 @@ export default function CardCadastro() {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
+  const [showErro, setShowErro] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const target = useRef(null);
 
   useEffect(() => {
@@ -43,11 +45,16 @@ export default function CardCadastro() {
 
   function handleNovoUsuario(e) {
     e.preventDefault();
-    setShow(!show);
 
-    api.post("/users", user).catch((error) => {
-      alert(error);
-    });
+    api
+      .post("/users", user)
+      .then(() => {
+        setShow(!show);
+      })
+      .catch((error) => {
+        setErrorMessage(error.response.data);
+        setShowErro(!showErro);
+      });
   }
 
   return (
@@ -100,6 +107,32 @@ export default function CardCadastro() {
               }}
             >
               Amigo cadastrado com sucesso!
+            </div>
+          )}
+        </Overlay>
+        <Overlay
+          transition
+          target={target.current}
+          show={showErro}
+          placement="bottom"
+          onEntered={() => {
+            setTimeout(() => {
+              setShowErro(false);
+            }, 2000);
+          }}
+        >
+          {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            <div
+              {...props}
+              style={{
+                backgroundColor: "#af1919c0",
+                padding: "2px 10px",
+                color: "white",
+                borderRadius: 3,
+                ...props.style,
+              }}
+            >
+              {errorMessage}
             </div>
           )}
         </Overlay>

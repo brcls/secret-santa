@@ -1,7 +1,6 @@
 import users from "../models/User.js";
 import sortearAmigos from "../utils/sortearAmigos.js";
-import emailjs from "emailjs-com";
-
+import validarEmail from "../utils/validarEmail.js";
 class UserController {
   static listarUsers = (req, res) => {
     users.find((err, users) => {
@@ -16,9 +15,7 @@ class UserController {
       if (sorteio.length % 2 !== 0) {
         res.status(400).send({ message: "Número de participantes inválido" });
       } else {
-        res.status(200).send({ message: "Sorteio realizado com sucesso" });
-
-        sorteio.map((amigo) => {
+        const amigosSorteados = sorteio.map((amigo) => {
           const { nome, email, amigoSecreto } = amigo;
 
           const templateParams = {
@@ -27,20 +24,10 @@ class UserController {
             secret_friend: amigoSecreto.nome,
           };
 
-          console.log(templateParams);
-
-          emailjs
-            .send(
-              "service_sqhr29x",
-              "template_1qplrf9",
-              templateParams,
-              "vgaMNG4u-lLcqFcPu"
-            )
-            .then(
-              (result) => console.log(result.text),
-              (error) => console.log(error.text)
-            );
+          return templateParams;
         });
+
+        res.status(200).send(amigosSorteados);
       }
     });
   };
@@ -60,13 +47,17 @@ class UserController {
   static cadastrarUser = (req, res) => {
     let user = new users(req.body);
 
-    user.save((err) => {
+    validarEmail(user.email, (err) => {
       if (err) {
-        res
-          .status(500)
-          .send({ message: `${err.message} - falha ao cadastrar user` });
+        res.status(500).send(err.message);
       } else {
-        res.status(201).send(user.toJSON());
+        user.save((err) => {
+          if (err) {
+            res.status(500).send(err.message);
+          } else {
+            res.status(201).send(user.toJSON());
+          }
+        });
       }
     });
   };

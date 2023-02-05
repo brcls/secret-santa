@@ -2,6 +2,7 @@ import { Button, Container, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import api from "../services/api";
+import emailjs from "emailjs-com";
 
 const StyledContainer = styled(Container)`
   margin-top: 50px;
@@ -45,8 +46,22 @@ export default function Home() {
 
     api
       .get("/users/sortear")
-      .then(() => {
+      .then(({ data }) => {
         setShowSortear(true);
+
+        data.map((user) => {
+          emailjs
+            .send(
+              "service_sqhr29x",
+              "template_1qplrf9",
+              user,
+              "vgaMNG4u-lLcqFcPu"
+            )
+            .then(
+              (result) => console.log(result.text),
+              (error) => console.log(error.text)
+            );
+        });
       })
       .catch((error) => {
         console.log(error);
