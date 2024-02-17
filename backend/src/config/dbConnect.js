@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
+import { mongodbURI } from "./dbConfig.js";
 
+mongoose.set("strictQuery", false);
 // Coneção com o banco de dados
-mongoose.connect(
-  "mongodb+srv://brcls:7CwBYVBqG9Ifz31Q@cluster0.2399to3.mongodb.net/?retryWrites=true&w=majority"
-);
+mongoose.connect(mongodbURI);
 
 let db = mongoose.connection;
 
