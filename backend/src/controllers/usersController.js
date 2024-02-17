@@ -14,7 +14,7 @@ class UserController {
   // Método responsável por sortear os users
   static sortearUsers = (req, res) => {
     users.find((err, users) => {
-      const sorteio = sortearAmigos(JSON.parse(JSON.stringify(users)));
+      const sorteio = sortearAmigos(users);
 
       // Verifica se o número de participantes é par
       if (sorteio.length % 2 !== 0) {
