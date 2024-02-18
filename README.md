@@ -1,21 +1,15 @@
-# Amigo Secreto
+# Secret Santa
 
-### Tutorial for program execution:
+## Instructions for Program Execution:
 
-After cloning the repository, open a terminal and run:
+### Windows:
 
-`cd backend`
+If you're using the Windows operating system, run the following script in PowerShell:
 
-then:
+`./start-project-powershell.ps1`
 
-`npm run dev`
+### UNIX (Linux, WSL or macOS):
 
-Open another terminal in the root folder and run the command:
+If you are using a UNIX-based operating system such as Linux or macOS, run the following script in the terminal:
 
-`cd frontend`
-
-and then
-
-`npm run dev`
-
-The project will be running at the address indicated by the terminal.
+`./start-project-unix.sh`
